@@ -21,6 +21,9 @@ class SenateMinutes:
         self.raw_text = ""
         for i in range(len(reader.pages)):
             page = reader.pages[i]
+            # To handle members in attendance
+            if "Appendix ‘A’" in page.extract_text() and i != 0:
+                break
             self.raw_text += page.extract_text()
 
         proposal_regex = f"A-{self.senate_number}[\.0-9]+[\(a-z\)]*"
@@ -42,7 +45,7 @@ class SenateMinutes:
             resolution_string = ''
             while knt < len(x) and 'senate resolution' in x[knt].lower():
                 if knt + 1 >= len(x):
-                    resolution_string = f'{x[knt]} Nil'
+                    resolution_string = f'{x[knt]}'
                     break
 
                 resolution_string += f'{x[knt]} {x[knt + 1]}'
