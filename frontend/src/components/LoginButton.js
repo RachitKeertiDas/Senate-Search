@@ -47,7 +47,9 @@ function LoginButton() {
   }, [user]);
 
   const login = (
-    <Button onClick={() => loginFunction()}>Sign in with Google</Button>
+    <Button mt="sm" onClick={() => loginFunction()}>
+      Sign in with Google
+    </Button>
   );
   const logout = (
     <Button

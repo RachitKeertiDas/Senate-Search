@@ -1,9 +1,12 @@
 import React, { useState } from "react";
+import { Button, FileButton, Text } from "@mantine/core";
 import "./UploadButton.css";
 
 function UploadButton() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
+  const [file, setFile] = useState(null);
+  // const [filetype, setFiletype] = useState(0);
 
   const handleFileUpload = async (e) => {
     // Handle file upload logic here
@@ -19,7 +22,7 @@ function UploadButton() {
 
     // Make a POST request to the /uploadfile endpoint with the file data
     try {
-      const response = await fetch("/uploadfile", {
+      const response = await fetch("http://localhost:8000/uploadfile", {
         method: "POST",
         body: formData,
       });
@@ -27,7 +30,7 @@ function UploadButton() {
       if (response.ok) {
         // File upload successful
         console.log("File uploaded successfully");
-        return <p>success</p>
+        return <p>success</p>;
         // You can handle the response data or update the UI as needed
       } else {
         // File upload failed
@@ -65,6 +68,14 @@ function UploadButton() {
 
   return (
     <div className="upload-button-container">
+      <FileButton onChange={setFile} accept="pdf">
+        {(props) => <Button {...props}>Upload Document</Button>}
+      </FileButton>
+      {file && (
+        <Text size="sm" align="center" mt="sm">
+          Picked File: {file.name}
+        </Text>
+      )}
       <h2 className="upload-button-heading">Upload Button</h2>
       <div className="upload-button-options">
         <button className="upload-button" onClick={openDialog}>
@@ -108,7 +119,7 @@ function UploadButton() {
                     document.getElementById("minutesFileInput").click()
                   }
                 >
-                 Upload Minutes
+                  Upload Minutes
                 </button>
               </div>
               <input
