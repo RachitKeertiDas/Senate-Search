@@ -26,8 +26,9 @@ class SenateMinutes:
                 break
             self.raw_text += page.extract_text()
 
-        proposal_regex = f"A-{self.senate_number}[\.0-9]+[\(a-z\)]*"
-        resolution_regex = f"Senate Resolution on item A -{self.senate_number}[\.0-9]+[\(a-z\)]*:"
+        proposal_regex = f"(?:A-{self.senate_number})(?:\s?\.[0-9]+)+(?:\([a-zA-Z]\))*"
+        # re.findall('A-2[\.0-9]+[\([a-z]+?\)]*', t2)
+        resolution_regex = f"(?:Senate Resolution on item A -{self.senate_number})(?:\s?\.[0-9]+)+(?:\([a-zA-Z]\))*"
         split_regex = f'({proposal_regex}|{resolution_regex})'
         x = re.split(split_regex, self.raw_text)
 
@@ -35,7 +36,6 @@ class SenateMinutes:
         while knt < len(x):
             if knt + 1 >= len(x):
                 break
-            # print('A', x[knt])
             self.proposals.append(f"{x[knt]} {x[knt + 1]}")
 
             knt += 2
@@ -47,21 +47,16 @@ class SenateMinutes:
                 self.resolutions.append(f'{x[knt]} {x[knt + 1]}')
                 break
 
-            while 'senate resolution' in x[knt + 2].lower():
-                # print('B', x[knt])
-                if '14' in x[knt]:
-                    self.resolutions.append(f'{x[knt]} {x[knt + 1]}')
-                    break
+            while knt + 2 < len(x) and 'senate resolution' in x[knt + 2].lower():
                 prop_number = re.search(
-                    f'A -{self.senate_number}[\.0-9]+[\(a-z\)]*', x[knt]).group(0)
+                    f'(?:A -{self.senate_number})(?:\s?\.[0-9]+)+(?:\s?\([a-zA-Z]\))*', x[knt]).group(0)
                 if len(re.findall('\.', prop_number)) == 1:
                     sub_prop_number = 1
                 else:
-                    # if re.search('\([a-zA-Z]\)', prop_number) is not None:
-                    #     print('heyyyyy', prop_number)
-                    #     sub_prop_number = re.search(
-                    #         '[a-zA-Z]', prop_number).group(0)
-                    #     sub_prop_number = chr(ord(sub_prop_number) + 1)
+                    if re.search('\([a-zA-Z]\)', prop_number) is not None:
+                        sub_prop_number = re.search(
+                            '\([a-zA-Z]\)', prop_number).group(0)[1:-1]
+                        sub_prop_number = chr(ord(sub_prop_number) + 1)
                     sub_prop_number = int(re.search(
                         '(\d+)(?!.*\d)', prop_number).group(0))
                     sub_prop_number += 1
@@ -71,17 +66,5 @@ class SenateMinutes:
                 self.proposals.append(f'{y[1]} {y[2]}')
                 knt += 2
             else:
-                # print('C', x[knt])
                 self.resolutions.append(f'{x[knt]} {x[knt + 1]}')
                 knt += 2
-
-            # resolution_string = ''
-            # while knt < len(x) and 'senate resolution' in x[knt].lower():
-            #     if knt + 1 >= len(x):
-            #         resolution_string = f'{x[knt]}'
-            #         break
-
-            #     resolution_string += f'{x[knt]} {x[knt + 1]}'
-            #     knt += 2
-
-            # self.resolutions.append(resolution_string)
