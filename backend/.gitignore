@@ -1,3 +1,6 @@
 .env
 .pyc/*
 __pycache__/
+util/test_extract.py
+util/out.txt
+util/plumber.py
