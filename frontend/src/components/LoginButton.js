@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Text, Button } from "@mantine/core";
 import { useGoogleLogin, googleLogout } from "@react-oauth/google";
-import SearchBox from "./SearchBox";
-import UploadButton from "./UploadButton";
 
 function LoginButton() {
   const [user, setUser] = useState(null);
@@ -68,8 +66,6 @@ function LoginButton() {
         <div>
           <Text>Hi {profile.name}</Text>
           {logout}
-          <SearchBox />
-          <UploadButton />
         </div>
       ) : (
         <div>{login}</div>
