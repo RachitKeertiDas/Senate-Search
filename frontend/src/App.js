@@ -3,6 +3,7 @@ import "./App.css";
 import { MantineProvider } from "@mantine/core";
 import Login from "./Pages/Login";
 import Upload from "./Pages/Upload"
+import Search from "./Pages/Search"
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
 import {
@@ -19,7 +20,12 @@ const router = createBrowserRouter([
   {
     path: "/upload",
     element: <Upload/>,
+  },
+  {
+    path: "/search",
+    element: <Search/>
   }
+
 ]);
 
 
