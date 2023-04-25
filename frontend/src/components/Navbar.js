@@ -1,5 +1,13 @@
-import React,{ useState } from 'react';
-import { Navbar, Center, Tooltip, UnstyledButton, createStyles, Stack, rem } from '@mantine/core';
+import React, { useState } from "react";
+import {
+  Navbar,
+  Center,
+  Tooltip,
+  UnstyledButton,
+  createStyles,
+  Stack,
+  rem,
+} from "@mantine/core";
 import {
   IconHome2,
   IconGauge,
@@ -10,7 +18,7 @@ import {
   IconSettings,
   IconLogout,
   IconSwitchHorizontal,
-} from '@tabler/icons-react';
+} from "@tabler/icons-react";
 // import HorizontalLogo from "../assets/horzlogolong.png";
 
 const useStyles = createStyles((theme) => ({
@@ -18,32 +26,43 @@ const useStyles = createStyles((theme) => ({
     width: rem(50),
     height: rem(50),
     borderRadius: theme.radius.md,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.colors.gray[7],
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    color:
+      theme.colorScheme === "dark"
+        ? theme.colors.dark[0]
+        : theme.colors.gray[7],
 
-    '&:hover': {
-      backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[0],
+    "&:hover": {
+      backgroundColor:
+        theme.colorScheme === "dark"
+          ? theme.colors.dark[5]
+          : theme.colors.gray[0],
     },
   },
 
   active: {
-    '&, &:hover': {
-      backgroundColor: theme.fn.variant({ variant: 'light', color: theme.primaryColor }).background,
-      color: theme.fn.variant({ variant: 'light', color: theme.primaryColor }).color,
+    "&, &:hover": {
+      backgroundColor: theme.fn.variant({
+        variant: "light",
+        color: theme.primaryColor,
+      }).background,
+      color: theme.fn.variant({ variant: "light", color: theme.primaryColor })
+        .color,
     },
   },
 }));
-
-
 
 // eslint-disable-next-line react/prop-types
 function NavbarLink({ icon: Icon, label, active, onClick }) {
   const { classes, cx } = useStyles();
   return (
     <Tooltip label={label} position="right" transitionProps={{ duration: 0 }}>
-      <UnstyledButton onClick={onClick} className={cx(classes.link, { [classes.active]: active })}>
+      <UnstyledButton
+        onClick={onClick}
+        className={cx(classes.link, { [classes.active]: active })}
+      >
         <Icon size="1.2rem" stroke={1.5} />
       </UnstyledButton>
     </Tooltip>
@@ -51,13 +70,13 @@ function NavbarLink({ icon: Icon, label, active, onClick }) {
 }
 
 const mockdata = [
-  { icon: IconHome2, label: 'Home' },
-  { icon: IconGauge, label: 'Dashboard' },
-  { icon: IconDeviceDesktopAnalytics, label: 'Analytics' },
-  { icon: IconCalendarStats, label: 'Releases' },
-  { icon: IconUser, label: 'Account' },
-  { icon: IconFingerprint, label: 'Security' },
-  { icon: IconSettings, label: 'Settings' },
+  { icon: IconHome2, label: "Home" },
+  { icon: IconGauge, label: "Dashboard" },
+  { icon: IconDeviceDesktopAnalytics, label: "Analytics" },
+  { icon: IconCalendarStats, label: "Releases" },
+  { icon: IconUser, label: "Account" },
+  { icon: IconFingerprint, label: "Security" },
+  { icon: IconSettings, label: "Settings" },
 ];
 
 function NavbarMinimal() {
@@ -73,10 +92,8 @@ function NavbarMinimal() {
   ));
 
   return (
-    <Navbar height={rem('90vh')} width={{ base: 80 }} p="md">
-      <Center>
-        {/* <HorizontalLogo type="mark" size={30} /> */}
-      </Center>
+    <Navbar height={rem("90vh")} width={{ base: 80 }} p="md">
+      <Center>{/* <HorizontalLogo type="mark" size={30} /> */}</Center>
       <Navbar.Section grow mt={50}>
         <Stack justify="center" spacing={0}>
           {links}
