@@ -1,8 +1,6 @@
 import React from "react";
-// import { Center, Card, Text, Image, Container } from "@mantine/core";
 import { Center, Card, Text, Container } from "@mantine/core";
 import LoginButton from "../components/LoginButton";
-// import HorizontalLogo from "../assets/horzlogolong.png";
 import Shell from "../components/AppShell";
 
 function Login() {

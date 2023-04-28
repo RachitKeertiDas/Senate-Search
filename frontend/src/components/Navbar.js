@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import {
   Navbar,
   Center,
@@ -8,18 +9,8 @@ import {
   Stack,
   rem,
 } from "@mantine/core";
-import {
-  IconHome2,
-  IconGauge,
-  IconDeviceDesktopAnalytics,
-  IconFingerprint,
-  IconCalendarStats,
-  IconUser,
-  IconSettings,
-  IconLogout,
-  IconSwitchHorizontal,
-} from "@tabler/icons-react";
-// import HorizontalLogo from "../assets/horzlogolong.png";
+
+import { IconHome2, IconSearch,IconLogout,IconUpload,IconBook,IconClipboardCheck } from '@tabler/icons-react';// import HorizontalLogo from "../assets/horzlogolong.png";
 
 const useStyles = createStyles((theme) => ({
   link: {
@@ -70,38 +61,40 @@ function NavbarLink({ icon: Icon, label, active, onClick }) {
 }
 
 const mockdata = [
-  { icon: IconHome2, label: "Home" },
-  { icon: IconGauge, label: "Dashboard" },
-  { icon: IconDeviceDesktopAnalytics, label: "Analytics" },
-  { icon: IconCalendarStats, label: "Releases" },
-  { icon: IconUser, label: "Account" },
-  { icon: IconFingerprint, label: "Security" },
-  { icon: IconSettings, label: "Settings" },
+  {iconData:{ icon: IconHome2, label: "Home" },route:"/"},
+  {iconData:{ icon: IconSearch, label: "Search" },route:"/search"},
+  {iconData:{ icon: IconUpload, label: "Upload" },route:"/upload"},
+  {iconData:{ icon: IconClipboardCheck, label: "Agenda" },route:"/agenda"},
+  {iconData:{ icon: IconBook, label: "Academic Handbook" },route:"/handbook"},
 ];
 
 function NavbarMinimal() {
   const [active, setActive] = useState(2);
 
   const links = mockdata.map((link, index) => (
-    <NavbarLink
-      {...link}
-      key={link.label}
+    
+    <Link to={link.route}>
+      <NavbarLink
+      {...link.iconData}
+      key={link.iconData.label}
       active={index === active}
       onClick={() => setActive(index)}
-    />
+      />
+    </Link>
   ));
-
+    // console.log("hello"+JSON.stringify(IconPhoto))
+    // console.log("hello"+JSON.stringify(icon(faMagnifyingGlass)))
   return (
     <Navbar height={rem("90vh")} width={{ base: 80 }} p="md">
       <Center>{/* <HorizontalLogo type="mark" size={30} /> */}</Center>
-      <Navbar.Section grow mt={50}>
+      <Navbar.Section grow mt={0}>
         <Stack justify="center" spacing={0}>
           {links}
         </Stack>
       </Navbar.Section>
       <Navbar.Section>
         <Stack justify="center" spacing={0}>
-          <NavbarLink icon={IconSwitchHorizontal} label="Change account" />
+          {/* <NavbarLink icon={} label="Change account" /> */}
           <NavbarLink icon={IconLogout} label="Logout" />
         </Stack>
       </Navbar.Section>
