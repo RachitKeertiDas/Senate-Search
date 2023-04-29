@@ -4,6 +4,8 @@ import { MantineProvider } from "@mantine/core";
 import Login from "./Pages/Login";
 import Upload from "./Pages/Upload";
 import Search from "./Pages/Search";
+import Agenda from "./Pages/Agenda";
+import Handbook from "./Pages/Handbook";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -20,6 +22,14 @@ const router = createBrowserRouter([
   {
     path: "/search",
     element: <Search />,
+  },
+  {
+    path: "/agenda",
+    element: <Agenda />,
+  },
+  {
+    path: "/handbook",
+    element: <Handbook />, 
   },
 ]);
 
