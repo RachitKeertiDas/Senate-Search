@@ -72,7 +72,7 @@ function NavbarMinimal() {
   const [active, setActive] = useState(2);
 
   const links = mockdata.map((link, index) => (
-    
+    // eslint-disable-next-line
     <Link to={link.route}>
       <NavbarLink
       {...link.iconData}
