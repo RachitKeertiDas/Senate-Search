@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation,matchRoutes } from "react-router-dom";
 import {
   Navbar,
   Center,
@@ -60,6 +60,9 @@ function NavbarLink({ icon: Icon, label, active, onClick }) {
   );
 }
 
+const routes = [
+  {path:"/",index:0},{path:"/search/",index:1},{path:"/upload",index:2},{path:"/agenda",index:3},{path:"/handbook",index:4}
+]
 const mockdata = [
   {iconData:{ icon: IconHome2, label: "Home" },route:"/"},
   {iconData:{ icon: IconSearch, label: "Search" },route:"/search"},
@@ -82,8 +85,11 @@ function NavbarMinimal() {
       />
     </Link>
   ));
-    // console.log("hello"+JSON.stringify(IconPhoto))
-    // console.log("hello"+JSON.stringify(icon(faMagnifyingGlass)))
+  
+  const location = useLocation();
+  const final = matchRoutes(routes,location);
+  useEffect(()=>{setActive(final[0].route.index)},[]);
+
   return (
     <Navbar height={rem("90vh")} width={{ base: 80 }} p="md">
       <Center>{/* <HorizontalLogo type="mark" size={30} /> */}</Center>
