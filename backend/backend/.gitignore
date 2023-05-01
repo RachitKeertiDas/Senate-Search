@@ -1,1 +1,4 @@
 data/
+search/senate_resolution.index
+search/test_search.py
+search/search_results.txt

@@ -1,9 +1,4 @@
 .env
 .pyc/*
 __pycache__/
-util/test_extract.py
-util/search_results.txt
-util/out.txt
-util/51.txt
-util/extract_backup.py
-util/senate_resolution.index
+util/
