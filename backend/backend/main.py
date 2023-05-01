@@ -1,4 +1,5 @@
 from typing import Union
+import os
 
 from fastapi import Depends, FastAPI, Header, HTTPException, Response, File, UploadFile
 from fastapi.responses import FileResponse
@@ -6,12 +7,12 @@ from dotenv import load_dotenv
 
 from auth import get_user_email
 from extract.extract import SenateMinutes
-
+from search.search import SearchEngine
 from database.text_database import TextDatabase
 
 app = FastAPI()
 db = TextDatabase()
-
+search_engine = SearchEngine()
 
 def extract_file(filename):
     print(filename)
@@ -37,8 +38,8 @@ async def auth(email: str = Depends(verify_auth_token)):
     """
     return {"email": email}
 
-@app.post("/upload_minutes/{num}")
-async def upload_minutes(file: UploadFile, num: int):
+@app.post("/upload_minutes/{num}/")
+async def upload_minutes(file: UploadFile):
     """
     Upload Documents, To be Protected by Auth and Accessible to Admin Users only
     This Route is to upload Senate Meeting Documents only.
@@ -55,25 +56,78 @@ async def upload_minutes(file: UploadFile, num: int):
 
     return {file.filename}
 
+@app.post("/upload_handbook")
+async def upload_handbook(file: UploadFile):
+    """
+    Upload Documents, To be Protected by Auth and Accessible to Admin Users only
+    This Route is to upload Senate Meeting Documents only.
+    """
+    file_cnt = file.file.read()
+    try:
+        with open(f"./data/assets/handbook.pdf", 'wb') as f:
+            f.write(contents)
+    except Exception:
+        return {"msg":"Saving the File Failed"}
+    finally:
+        file.file.close()
+        extract_file(file.filename)
+
+    return {file.filename}
+
+
+@app.post("/upload_agenda/{num}/")
+async def upload_agenda(file: UploadFile):
+    """
+    Upload Documents, To be Protected by Auth and Accessible to Admin Users only
+    This Route is to upload Senate Meeting Documents only.
+    """
+    file_cnt = file.file.read()
+    try:
+        with open(f"./data/assets/agenda_{num}.pdf", 'wb') as f:
+            f.write(contents)
+    except Exception:
+        return {"msg":"Saving the File Failed"}
+    finally:
+        file.file.close()
+        extract_file(file.filename)
+
+    return {file.filename}
+
+
 @app.get('/handbook')
 async def view_handbook():
     """
     View the Academic Handbook
     """
-    return {"Hello":"world"}
+    current_dir = os.getcwd() 
+    return FileResponse(f'{current_dir}/data/assets/handbook.pdf')
 
-@app.get('/minutes/pdf/{minute_number}')
-async def view_minutes_pdf(minute_number: int, response_class=FileResponse):
+
+@app.get('/minutes/pdf/{minutes_number}')
+async def view_minutes_pdf(minutes_number: int):
     """
     Retrieve the PDF of minutes from the database.
     """
     try:
-        return f'./assets/minutes_{minutes_number}.pdf'
+        headers = {'Content-Disposition': 'inline' ,filename:"out.pdf"}
+        current_dir = os.getcwd() 
+        return FileResponse(f'{current_dir}/data/assets/minutes_{minutes_number}.pdf')
     except Exception as err:
         return {"error":err}
-    return 
+
+
 
 @app.get('/search')
 async def search_query():
+    query = 'Course Conversion'
+    # TODO: Change later to walk based
+    available_docs = []
+    for i in range(51):
+        minute_obj = retrieve_minutes(i)
+        if minute_obj is not None:
+            available_docs.append(minute_obj)
+    print("retrieved docs, sending to search engine for querying")
 
-    pass
+    search_results = search_engine.search(query,available_docs)
+
+    return search_results
