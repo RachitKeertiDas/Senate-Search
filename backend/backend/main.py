@@ -47,7 +47,7 @@ async def upload_minutes(file: UploadFile):
     file_cnt = file.file.read()
     try:
         with open(f"./data/assets/minutes_{num}.pdf", 'wb') as f:
-            f.write(contents)
+            f.write(file_cnt)
     except Exception:
         return {"msg":"Saving the File Failed"}
     finally:
@@ -65,7 +65,7 @@ async def upload_handbook(file: UploadFile):
     file_cnt = file.file.read()
     try:
         with open(f"./data/assets/handbook.pdf", 'wb') as f:
-            f.write(contents)
+            f.write(file_cnt)
     except Exception:
         return {"msg":"Saving the File Failed"}
     finally:
@@ -84,7 +84,7 @@ async def upload_agenda(file: UploadFile):
     file_cnt = file.file.read()
     try:
         with open(f"./data/assets/agenda_{num}.pdf", 'wb') as f:
-            f.write(contents)
+            f.write(file_cnt)
     except Exception:
         return {"msg":"Saving the File Failed"}
     finally:
