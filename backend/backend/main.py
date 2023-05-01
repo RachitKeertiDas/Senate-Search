@@ -1,13 +1,17 @@
 from typing import Union
 
-from fastapi import Depends, FastAPI, Header, HTTPException, Response
-from fastapi import FastAPI
 from fastapi import Depends, FastAPI, Header, HTTPException, Response, File, UploadFile
+from fastapi.responses import FileResponse
 from dotenv import load_dotenv
 
 from auth import get_user_email
-from extract import SenateMinutes
+from extract.extract import SenateMinutes
+
+from database.text_database import TextDatabase
+
 app = FastAPI()
+db = TextDatabase()
+
 
 def extract_file(filename):
     print(filename)
@@ -33,15 +37,15 @@ async def auth(email: str = Depends(verify_auth_token)):
     """
     return {"email": email}
 
-@app.post("/uploadfile")
-async def upload_file(file: UploadFile):
+@app.post("/upload_minutes/{num}")
+async def upload_minutes(file: UploadFile, num: int):
     """
     Upload Documents, To be Protected by Auth and Accessible to Admin Users only
+    This Route is to upload Senate Meeting Documents only.
     """
-    print(file)
     file_cnt = file.file.read()
     try:
-        with open(file.filename, 'wb') as f:
+        with open(f"./data/assets/minutes_{num}.pdf", 'wb') as f:
             f.write(contents)
     except Exception:
         return {"msg":"Saving the File Failed"}
@@ -51,3 +55,25 @@ async def upload_file(file: UploadFile):
 
     return {file.filename}
 
+@app.get('/handbook')
+async def view_handbook():
+    """
+    View the Academic Handbook
+    """
+    return {"Hello":"world"}
+
+@app.get('/minutes/pdf/{minute_number}')
+async def view_minutes_pdf(minute_number: int, response_class=FileResponse):
+    """
+    Retrieve the PDF of minutes from the database.
+    """
+    try:
+        return f'./assets/minutes_{minutes_number}.pdf'
+    except Exception as err:
+        return {"error":err}
+    return 
+
+@app.get('/search')
+async def search_query():
+
+    pass

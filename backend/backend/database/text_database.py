@@ -1,12 +1,12 @@
 from database.database import DocumentDatabase
-from extract import SenateMinutes
+from extract.extract import SenateMinutes
 import os
 import json
 
 class TextDatabase(DocumentDatabase):
 
     def __init__(self):
-        self.path= './data'
+        self.path= './../data'
         if not os.path.exists(self.path):
             os.makedirs(self.path)
             print('Created a New text database')
