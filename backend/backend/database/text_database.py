@@ -1,4 +1,4 @@
-from database import DocumentDatabase
+from database.database import DocumentDatabase
 from extract import SenateMinutes
 import os
 import json
@@ -136,8 +136,3 @@ class TextDatabase(DocumentDatabase):
             meeting_dict[prop_id] = each
 
         return meeting_dict
-
-db = TextDatabase()
-minutes = db.retrieve_minutes(47)
-print(minutes)
-
