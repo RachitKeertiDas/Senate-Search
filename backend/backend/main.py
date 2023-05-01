@@ -7,12 +7,12 @@ from dotenv import load_dotenv
 
 from auth import get_user_email
 from extract.extract import SenateMinutes
-from search.search import SearchEngine
+# from search.search import SearchEngine
 from database.text_database import TextDatabase
 
 app = FastAPI()
 db = TextDatabase()
-search_engine = SearchEngine()
+# search_engine = SearchEngine()
 
 def extract_file(filename):
     print(filename)
@@ -109,7 +109,7 @@ async def view_minutes_pdf(minutes_number: int):
     Retrieve the PDF of minutes from the database.
     """
     try:
-        headers = {'Content-Disposition': 'inline' ,filename:"out.pdf"}
+        headers = {'Content-Disposition': 'inline' ,'filename':"out.pdf"}
         current_dir = os.getcwd() 
         return FileResponse(f'{current_dir}/data/assets/minutes_{minutes_number}.pdf')
     except Exception as err:
