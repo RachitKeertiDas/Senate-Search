@@ -1,9 +1,8 @@
 import React from "react";
 import { Center, Card, Text, Container } from "@mantine/core";
-import LoginButton from "../components/LoginButton";
+import SearchBox from "../components/SearchBox";
 import Shell from "../components/AppShell";
-
-function Login() {
+function Search() {
   return (
     <Shell
       content={
@@ -15,23 +14,17 @@ function Login() {
               backgroundColor: "#FFE8CC",
             }}
           >
-            <Card
-              shadow="sm"
-              padding="lg"
-              radius="md"
-              display="flex"
-              style={{ flexDirection: "row" }}
-            >
+            <Card>
               <Container>
                 <Text fw={700}>
-                  Welcome to IITH Senate Search portal.
+                  Welcome to IITH Senate Search portal- Search.
                   <br />
                 </Text>
                 <Text>
                   Here you can easily view and track previous Senate Meeting
                   Minutes.
                 </Text>
-                <LoginButton />
+                <SearchBox />
               </Container>
             </Card>
           </Center>
@@ -41,4 +34,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Search;

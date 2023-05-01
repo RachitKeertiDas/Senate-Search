@@ -1,9 +1,12 @@
 import React from "react";
+// import { Center, Card, Text, Image, Container } from "@mantine/core";
 import { Center, Card, Text, Container } from "@mantine/core";
-import LoginButton from "../components/LoginButton";
+// import LoginButton from "../components/LoginButton";
+// import HorizontalLogo from "../assets/horzlogolong.png";
+import UploadButton from "../components/UploadButton";
 import Shell from "../components/AppShell";
 
-function Login() {
+function Upload() {
   return (
     <Shell
       content={
@@ -24,14 +27,14 @@ function Login() {
             >
               <Container>
                 <Text fw={700}>
-                  Welcome to IITH Senate Search portal.
+                  Welcome to IITH Senate Search portal- Upload.
                   <br />
                 </Text>
                 <Text>
                   Here you can easily view and track previous Senate Meeting
                   Minutes.
                 </Text>
-                <LoginButton />
+                <UploadButton />
               </Container>
             </Card>
           </Center>
@@ -41,4 +44,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Upload;

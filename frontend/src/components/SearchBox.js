@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./SearchBox.css";
+import { Input, Button } from "@mantine/core";
 
 function SearchBox() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -15,19 +15,16 @@ function SearchBox() {
   };
 
   return (
-    <div className="search-box-container">
-      <h2 className="search-box-heading">Search Box</h2>
-      <form onSubmit={handleSearch} className="search-box-form">
-        <input
-          type="text"
-          placeholder="Enter search term"
+    <div>
+      <h2>Search Box</h2>
+      <form onSubmit={handleSearch}>
+        <Input
           value={searchTerm}
           onChange={handleInputChange}
-          className="search-box-input" // Apply styles to input
+          placeholder="Enter search term"
+          className="search-box-input" // Apply custom styles to input
         />
-        <button type="submit" className="search-box-button">
-          Search
-        </button>
+        <Button type="submit">Search</Button>
       </form>
     </div>
   );
