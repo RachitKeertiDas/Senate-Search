@@ -5,34 +5,30 @@ import time
 from extract import SenateMinutes
 
 
-def fetch_minutes_info(resolution_idx):
-    meta_dict = dict()
-    meta_dict['Proposal_ID'] = minutes_47.proposals[resolution_idx]['proposal_id']
-    meta_dict['Proposal'] = minutes_47.proposals[resolution_idx]['proposal']
-    meta_dict['Resolution'] = minutes_47.proposals[resolution_idx]['resolution']
-    return meta_dict
+def fetch_minutes_info(minutes, resolution_idx):
+    return minutes.proposals[resolution_idx]
 
 
-def search(query, top_k, index, model):
+def search(query, minutes, top_k, index, model):
     t = time.time()
     query_vector = model.encode([query])
     top_k_results = index.search(query_vector, top_k)
+    print('Top-K:', top_k_results)
     print('>>>> Results in Total Time: {}'.format(time.time()-t))
     top_k_ids = top_k_results[1].tolist()[0]
-    top_k_ids = list(np.unique(top_k_ids))
-    results = [fetch_minutes_info(idx) for idx in top_k_ids]
+    top_k_ids = list(dict.fromkeys(top_k_ids))
+    results = [fetch_minutes_info(minutes, idx) for idx in top_k_ids]
     return results
 
 
-# Data
-filepath_47 = '../../../Minutes/47th Senate/47th Senate Meeting-Section A Minutes-final-converted.pdf'
-minutes_47 = SenateMinutes(filepath=filepath_47, senate_number=47)
-minutes_47.extract()
+filepath = '../../../Minutes/51st Senate/51st Senate minutes.pdf'
+minutes = SenateMinutes(filepath=filepath, senate_number=51)
+minutes.extract()
 docs = []
-for i in range(len(minutes_47.proposals)):
-    doc = minutes_47.proposals[i]['proposal_id'] + ' ' + \
-        minutes_47.proposals[i]['proposal'] + '\n' + \
-        minutes_47.proposals[i]['resolution']
+for i in range(len(minutes.proposals)):
+    doc = minutes.proposals[i]['proposal_id'] + ' ' + \
+        minutes.proposals[i]['proposal'] + '\n' + \
+        minutes.proposals[i]['resolution']
     docs.append(doc)
 
 # Model
@@ -47,8 +43,8 @@ faiss.write_index(index, 'senate_resolution.index')
 
 
 # Query
-query = "Course Conversion"
-results = search(query, top_k=10, index=index, model=model)
+query = "Additional Course Conversion"
+results = search(query, minutes, top_k=10, index=index, model=model)
 print('Query:', query)
 print("\n")
 for result in results:

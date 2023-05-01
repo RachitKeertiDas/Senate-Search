@@ -17,11 +17,14 @@ class SenateMinutes:
 
     def print(self):
         for i in range(len(self.proposals)):
-            print('========================================')
-            proposal_id, proposal, resolution = self.proposals[i][
-                'proposal_id'], self.proposals[i]['proposal'], self.proposals[i]['resolution']
-            print(f'{proposal_id} {proposal}')
-            print(f'Resolution{resolution}')
+            print("========================================")
+            proposal_id, proposal, resolution = (
+                self.proposals[i]["proposal_id"],
+                self.proposals[i]["proposal"],
+                self.proposals[i]["resolution"],
+            )
+            print(f"{proposal_id} {proposal}")
+            print(f"\nResolution: {resolution}")
 
     def extract(self):
         reader = PdfReader(self.filepath)
@@ -34,11 +37,9 @@ class SenateMinutes:
                 break
             self.raw_text += page.extract_text()
 
-        # print(self.raw_text)
-        # exit()
         proposal_regex = f"(?:A-{self.senate_number})(?:\s?\.[0-9]+)+(?:\s?\([0-9]+\))?(?:\s?\([a-zA-Z]\))*"
         resolution_regex = f"(?:Senate Resolution on item A -{self.senate_number})(?:\s?\.[0-9]+)+(?:\s?\([0-9]+\))?(?:\s?\([a-zA-Z]\))*"
-        split_regex = f'({proposal_regex}|{resolution_regex})'
+        split_regex = f"({proposal_regex}|{resolution_regex})"
         x = re.split(split_regex, self.raw_text)
 
         knt = 1
@@ -52,84 +53,124 @@ class SenateMinutes:
 
             knt += 2
             if knt + 1 >= len(x):
-                current_resolution = 'Nil'
-                self.proposals.append({'proposal_id': current_proposal_id,
-                                       'proposal': current_proposal, 'resolution': current_resolution})
+                current_resolution = "Nil"
+                self.proposals.append(
+                    {
+                        "proposal_id": current_proposal_id,
+                        "proposal": current_proposal.strip(),
+                        "resolution": current_resolution,
+                    }
+                )
                 break
 
-            if 'senate resolution' not in x[knt].lower():
-                current_resolution = 'Nil'
-                self.proposals.append({'proposal_id': current_proposal_id,
-                                       'proposal': current_proposal, 'resolution': current_resolution})
+            if "senate resolution" not in x[knt].lower():
+                current_resolution = "Nil"
+                self.proposals.append(
+                    {
+                        "proposal_id": current_proposal_id,
+                        "proposal": current_proposal.strip(),
+                        "resolution": current_resolution,
+                    }
+                )
                 continue
 
             if knt + 2 >= len(x):
                 current_resolution = x[knt + 1]
-                self.proposals.append({'proposal_id': current_proposal_id,
-                                       'proposal': current_proposal, 'resolution': current_resolution})
+                self.proposals.append(
+                    {
+                        "proposal_id": current_proposal_id,
+                        "proposal": current_proposal.strip(),
+                        "resolution": current_resolution[1:].strip(),
+                    }
+                )
                 break
 
-            while knt + 2 < len(x) and 'senate resolution' in x[knt + 2].lower():
-                print(x[knt])
+            while knt + 2 < len(x) and "senate resolution" in x[knt + 2].lower():
                 prop_number = re.search(
-                    f'(?:A -{self.senate_number})(?:\s?\.[0-9]+)+(?:\s?\([0-9]+\))?(?:\s?\([a-zA-Z]\))*', x[knt]).group(0)
-                if len(re.findall('\.', prop_number)) == 1 and re.findall('\([0-9]+\)', prop_number) == 0 and re.findall('\([a-zA-Z]\)', prop_number) == 0:
+                    f"(?:A -{self.senate_number})(?:\s?\.[0-9]+)+(?:\s?\([0-9]+\))?(?:\s?\([a-zA-Z]\))*",
+                    x[knt],
+                ).group(0)
+                if (
+                    len(re.findall("\.", prop_number)) == 1
+                    and re.findall("\([0-9]+\)", prop_number) == 0
+                    and re.findall("\([a-zA-Z]\)", prop_number) == 0
+                ):
                     sub_prop_number = 1
                 else:
                     letter_flag = False
                     y = None
-                    if re.search('\([a-zA-Z]\)', prop_number) is not None:
+                    if re.search("\([a-zA-Z]\)", prop_number) is not None:
                         letter_flag = True
-                        sub_prop_number = re.search(
-                            '\([a-zA-Z]\)', prop_number).group(0)[1:-1]
+                        sub_prop_number = re.search("\([a-zA-Z]\)", prop_number).group(
+                            0
+                        )[1:-1]
                         sub_prop_number = chr(ord(sub_prop_number) + 1)
 
                     if letter_flag:
                         # y = re.split(
                         #     f'(Senate Resolution on item ?:A -{self.senate_number})(?:\s?\.[0-9]+)+(?:\s?\({sub_prop_number}\))', x[knt + 1])
-                        y = re.split(
-                            f'(\n{sub_prop_number}\))', x[knt + 1])
+                        y = re.split(f"(\n{sub_prop_number}\))", x[knt + 1])
                         if len(y) == 1:
                             y = re.split(
-                                f'(\n{sub_prop_number}\.)', x[knt + 1])
+                                f"(\n{sub_prop_number}\.)", x[knt + 1])
                         if len(y) == 1:
-                            sub_prop_number = int(re.search(
-                                '(\d+)(?!.*\d)', prop_number).group(0))
+                            sub_prop_number = int(
+                                re.search("(\d+)(?!.*\d)",
+                                          prop_number).group(0)
+                            )
                             sub_prop_number += 1
                             y = re.split(
-                                f'(\n{sub_prop_number}\))', x[knt + 1])
+                                f"(\n{sub_prop_number}\))", x[knt + 1])
                     else:
-                        sub_prop_number = int(re.search(
-                            '(\d+)(?!.*\d)', prop_number).group(0))
+                        sub_prop_number = int(
+                            re.search("(\d+)(?!.*\d)", prop_number).group(0)
+                        )
                         sub_prop_number += 1
-                        y = re.split(
-                            f'(\n{sub_prop_number}\))', x[knt + 1])
+                        y = re.split(f"(\n{sub_prop_number}\))", x[knt + 1])
                         if len(y) == 1:
                             current_proposal_id = re.search(
-                                f'(?:A -{self.senate_number})(?:\s?\.[0-9]+)+(?:\s?\([0-9]+\))?(?:\s?\([a-zA-Z]\))*', x[knt]).group(0)
+                                f"(?:A -{self.senate_number})(?:\s?\.[0-9]+)+(?:\s?\([0-9]+\))?(?:\s?\([a-zA-Z]\))*",
+                                x[knt],
+                            ).group(0)
                             current_resolution = x[knt + 1]
-                            self.proposals.append({'proposal_id': current_proposal_id,
-                                                   'proposal': current_proposal, 'resolution': current_resolution})
+                            self.proposals.append(
+                                {
+                                    "proposal_id": current_proposal_id,
+                                    "proposal": current_proposal.strip(),
+                                    "resolution": current_resolution[1:].strip(),
+                                }
+                            )
                             knt += 2
                             break
 
-                # TODO: Can there be multiple numbers here?
-
-                # TODO: Dynamically update
                 current_proposal_id = re.search(
-                    f'(?:A -{self.senate_number})(?:\s?\.[0-9]+)+(?:\s?\([a-zA-Z]\))*', x[knt]).group(0)
+                    f"(?:A -{self.senate_number})(?:\s?\.[0-9]+)+(?:\s?\([a-zA-Z]\))*",
+                    x[knt],
+                ).group(0)
                 current_resolution = y[0]
-                self.proposals.append({'proposal_id': current_proposal_id,
-                                       'proposal': current_proposal, 'resolution': current_resolution})
+                self.proposals.append(
+                    {
+                        "proposal_id": current_proposal_id,
+                        "proposal": current_proposal.strip(),
+                        "resolution": current_resolution[1:].strip(),
+                    }
+                )
                 if len(y) == 1:
-                    current_proposal = 'Nil'
+                    current_proposal = "Nil"
                 else:
                     current_proposal = y[2]
                 knt += 2
             else:
                 current_proposal_id = re.search(
-                    f'(?:A -{self.senate_number})(?:\s?\.[0-9]+)+(?:\s?\([a-zA-Z]\))*', x[knt]).group(0)
+                    f"(?:A -{self.senate_number})(?:\s?\.[0-9]+)+(?:\s?\([a-zA-Z]\))*",
+                    x[knt],
+                ).group(0)
                 current_resolution = x[knt + 1]
-                self.proposals.append({'proposal_id': current_proposal_id,
-                                       'proposal': current_proposal, 'resolution': current_resolution})
+                self.proposals.append(
+                    {
+                        "proposal_id": current_proposal_id,
+                        "proposal": current_proposal.strip(),
+                        "resolution": current_resolution[1:].strip(),
+                    }
+                )
                 knt += 2
