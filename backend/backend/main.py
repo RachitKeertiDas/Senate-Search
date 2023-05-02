@@ -55,16 +55,17 @@ async def upload_minutes(file: UploadFile, num: int):
     try:
         with open(f"./data/assets/minutes_{num}.pdf", 'wb') as f:
             f.write(file_cnt)
-    except Exception:
+    except Exception as err:
+        print(err)
         return {"msg": "Saving the File Failed"}
     finally:
         file.file.close()
-        extract_file(file.filename, num)
+        extract_file(f"./data/assets/minutes_{num}.pdf", num)
 
-    return {file.filename}
+    return {"message": "ok"}
 
 
-@app.post("/upload_handbook")
+@app.post("/upload_handbook/")
 async def upload_handbook(file: UploadFile):
     """
     Upload Documents, To be Protected by Auth and Accessible to Admin Users only
@@ -78,7 +79,7 @@ async def upload_handbook(file: UploadFile):
         return {"msg": "Saving the File Failed"}
     finally:
         file.file.close()
-        extract_file(file.filename)
+        # extract_file(file.filename, 1)
 
     return {file.filename}
 
@@ -97,7 +98,7 @@ async def upload_agenda(file: UploadFile, num: int):
         return {"msg": "Saving the File Failed"}
     finally:
         file.file.close()
-        extract_file(file.filename)
+    # extract_file(file.filename, num)
 
     return {file.filename}
 

@@ -9,8 +9,8 @@ class TextDatabase(DocumentDatabase):
 
     def __init__(self):
         self.path = './data'
-        if not os.path.exists(self.path):
-            os.makedirs(self.path)
+        if not os.path.exists(f"{self.path}/assets"):
+            os.makedirs(f"{self.path}/assets")
             print('Created a New text database')
         else:
             print('Using already existing database')
