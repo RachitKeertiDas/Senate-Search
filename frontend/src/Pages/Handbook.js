@@ -45,7 +45,7 @@ function Handbook() {
                   fontSize: "20px",
                 }}
               >
-                No PDF Found!!!
+                No PDF Found!
               </Text>
             </Center>
           )}

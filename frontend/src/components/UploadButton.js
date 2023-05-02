@@ -7,6 +7,7 @@ import {
 	Space,
 	NumberInput,
 	Grid,
+	Text,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 
@@ -14,6 +15,7 @@ function UploadButton() {
 	const [file, setFile] = useState(null);
 	const [fileNumber, setFileNumber] = useState(null);
 	const [opened, { open, close }] = useDisclosure(false);
+	const [responseMessage, setResponseMessage] = useState("");
 
 	const handleFileUpload = async (upload_type) => {
 		const formData = new FormData();
@@ -30,13 +32,16 @@ function UploadButton() {
 
 			if (response.ok) {
 				console.log("File uploaded successfully");
+				setResponseMessage("File uploaded successfully");
 				close();
 				return;
 			} else {
 				console.error("File upload failed");
+				setResponseMessage("File upload failed");
 			}
 		} catch (error) {
 			console.error("File upload failed:", error);
+			setResponseMessage("File upload failed");
 		}
 	};
 
@@ -64,6 +69,12 @@ function UploadButton() {
 				>
 					Upload Documents
 				</Button>
+
+				<Text
+				mt={8}
+				>
+					{responseMessage}
+				</Text>
 			</div>
 
 			{
