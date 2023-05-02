@@ -31,7 +31,9 @@ function SearchBox() {
 						placeholder="Enter search term"
 						className="search-box-input" // Apply custom styles to input
 					/>
-					<Button type="submit">Search</Button>
+					<Button type="submit" mt={4}>
+						Search
+					</Button>
 				</form>
 				<ScrollArea height={"50vh"} style={{ maxHeight: "50vh" }} type="always">
 					<Accordion

@@ -60,6 +60,7 @@ function UploadButton() {
 					onClick={() => {
 						open();
 					}}
+					mt={8}
 				>
 					Upload Documents
 				</Button>
