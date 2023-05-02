@@ -144,7 +144,7 @@ class SenateMinutes:
                             break
 
                 current_proposal_id = re.search(
-                    f"(?:A -{self.senate_number})(?:\s?\.[0-9]+)+(?:\s?\([a-zA-Z]\))*",
+                    f"(?:A -{self.senate_number})(?:\s?\.[0-9]+)+(?:\s?\([0-9]+\))?(?:\s?\([a-zA-Z]\))*",
                     x[knt],
                 ).group(0)
                 current_resolution = y[0]
@@ -162,7 +162,7 @@ class SenateMinutes:
                 knt += 2
             else:
                 current_proposal_id = re.search(
-                    f"(?:A -{self.senate_number})(?:\s?\.[0-9]+)+(?:\s?\([a-zA-Z]\))*",
+                    f"(?:A -{self.senate_number})(?:\s?\.[0-9]+)+(?:\s?\([0-9]+\))?(?:\s?\([a-zA-Z]\))*",
                     x[knt],
                 ).group(0)
                 current_resolution = x[knt + 1]
