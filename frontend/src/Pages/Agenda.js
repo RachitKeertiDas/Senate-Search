@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Center, Card, Text, Container } from "@mantine/core";
+import {Card, Text, Container } from "@mantine/core";
 import { Viewer, Worker } from "@react-pdf-viewer/core";
 import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
 import "@react-pdf-viewer/default-layout/lib/styles/index.css";
@@ -29,13 +29,6 @@ function Agenda() {
 		<Shell
 			content={
 				<div>
-					<Center
-						style={{
-							height: "90vh",
-							maxWidth: "100vw",
-							backgroundColor: "#FFE8CC",
-						}}
-					>
 						<Card>
 							<Container>
 								<Text fw={700}>
@@ -48,7 +41,6 @@ function Agenda() {
 								</Text>
 							</Container>
 						</Card>
-					</Center>
 					{pdfFile && (
 						<Worker workerUrl="https://unpkg.com/pdfjs-dist@3.5.141/build/pdf.worker.min.js">
 							<Viewer
@@ -57,18 +49,7 @@ function Agenda() {
 							/>
 						</Worker>
 					)}
-					{!pdfFile && (
-						<Center>
-							<Text
-								style={{
-									color: "red",
-									fontSize: "50px",
-								}}
-							>
-								No PDF Found!!!
-							</Text>
-						</Center>
-					)}
+					
 				</div>
 			}
 		/>

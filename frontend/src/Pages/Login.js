@@ -1,5 +1,5 @@
 import React from "react";
-import { Center, Card, Text, Container } from "@mantine/core";
+import { Card, Text, Container } from "@mantine/core";
 import LoginButton from "../components/LoginButton";
 import Shell from "../components/AppShell";
 
@@ -7,14 +7,7 @@ function Login() {
   return (
     <Shell
       content={
-        <div>
-          <Center
-            style={{
-              height: "90vh",
-              maxWidth: "100vw",
-              backgroundColor: "#FFE8CC",
-            }}
-          >
+
             <Card
               shadow="sm"
               padding="lg"
@@ -34,8 +27,7 @@ function Login() {
                 <LoginButton />
               </Container>
             </Card>
-          </Center>
-        </div>
+ 
       }
     />
   );

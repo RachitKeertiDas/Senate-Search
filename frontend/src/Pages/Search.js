@@ -1,21 +1,12 @@
 import React from "react";
-import { Center, Card, Text, Container } from "@mantine/core";
+import {Card, Text, Container } from "@mantine/core";
 import SearchBox from "../components/SearchBox";
 import Shell from "../components/AppShell";
 function Search() {
 	return (
 		<Shell
 			content={
-				<div>
-					<Center
-						style={{
-							height: "90vh",
-							maxWidth: "100vw",
-							backgroundColor: "#FFE8CC",
-							padding: 0,
-							margin: 0,
-						}}
-					>
+				
 						<Card>
 							<Container>
 								<Text fw={700}>
@@ -29,8 +20,7 @@ function Search() {
 								<SearchBox />
 							</Container>
 						</Card>
-					</Center>
-				</div>
+				
 			}
 		/>
 	);

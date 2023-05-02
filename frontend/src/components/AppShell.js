@@ -1,4 +1,4 @@
-import { AppShell, Header, Image, rem } from "@mantine/core";
+import { AppShell, Header, Image, Center,rem } from "@mantine/core";
 import NavbarMinimal from "./Navbar";
 import React from "react";
 import HorizontalLogo from "../assets/horzlogolong.png";
@@ -30,7 +30,20 @@ function Shell({ content }) {
 				},
 			})}
 		>
+
+      <div>
+					<Center
+						style={{
+							height: "90vh",
+							maxWidth: "100vw",
+							backgroundColor: "#FFE8CC",
+						}}
+					>
+						
 			{content}
+      
+					</Center>
+				</div>
 		</AppShell>
 	);
 }

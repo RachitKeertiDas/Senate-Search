@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Center, Card, Text, Container } from "@mantine/core";
+import { Center, Text } from "@mantine/core";
 import { Viewer, Worker } from "@react-pdf-viewer/core";
 import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
 import "@react-pdf-viewer/default-layout/lib/styles/index.css";
@@ -28,13 +28,8 @@ function Handbook() {
   return (
     <Shell
       content={
-        <Center
-          style={{
-            height: "85vh",
-            maxWidth: "100vw",
-            backgroundColor: "#FFE8CC",
-          }}
-        >
+          <div>
+          
           {pdfFile && (
             <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.5.141/build/pdf.worker.min.js">
               <Viewer
@@ -47,15 +42,14 @@ function Handbook() {
             <Center>
               <Text
                 style={{
-                  color: "red",
-                  fontSize: "50px",
+                  fontSize: "20px",
                 }}
               >
                 No PDF Found!!!
               </Text>
             </Center>
           )}
-        </Center>
+        </div>
       }
     />
   );
