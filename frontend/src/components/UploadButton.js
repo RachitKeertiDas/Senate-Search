@@ -1,23 +1,17 @@
 import React, { useState } from "react";
-import { Button, FileInput, Text, Portal, Modal } from "@mantine/core";
+import { Button, FileInput, Portal, Modal,Space, NumberInput, Grid } from "@mantine/core";
+import { useDisclosure } from '@mantine/hooks';
 
 function UploadButton() {
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [selectedFile, setSelectedFile] = useState(null);
   const [file, setFile] = useState(null);
+  const [fileNumber, setFileNumber] = useState(null);
 
-  const handleFileUpload = async (e) => {
-    console.log("Selected Files:", e.target.files);
-    const file = e.target.files[0];
-    console.log("File Name:", file.name);
-    console.log("File Size:", file.size);
-    console.log("File Type:", file.type);
-
+  const handleFileUpload = async () => {
     const formData = new FormData();
     formData.append("file", file);
 
     try {
-      const response = await fetch("http://localhost:8000/uploadfile", {
+      const response = await fetch(`http://localhost:8000/upload_agenda/${fileNumber}/`, {
         method: "POST",
         body: formData,
       });
@@ -32,101 +26,79 @@ function UploadButton() {
       console.error("File upload failed:", error);
     }
 
-    setSelectedFile(file);
-    setIsDialogOpen(false);
   };
 
-  const renderSelectedFile = () => {
-    if (selectedFile) {
-      return (
-        <div>
-          <h4>Selected File Details:</h4>
-          <p>File Name: {selectedFile.name}</p>
-          <p>File Size: {selectedFile.size} bytes</p>
-          <p>File Type: {selectedFile.type}</p>
-        </div>
-      );
-    }
-  };
 
-  const openDialog = () => {
-    setIsDialogOpen(true);
-  };
 
-  const closeDialog = () => {
-    setIsDialogOpen(false);
-  };
+  // const openDialog = () => {
+  //   setIsDialogOpen(true);
+  //   console.log(isDialogOpen);
+  // };
+
+  // const closeDialog = () => {
+  //   setIsDialogOpen(false);
+  //   console.log("Modal Closed");
+  // };
+
+  const [opened, { open, close }] = useDisclosure(false);
+
 
   return (
     <div>
-      <FileInput onChange={setFile} accept=".pdf">
-        <Button>Upload Document</Button>
-      </FileInput>
-      {file && (
-        <Text align="center" mt="sm">
-          Picked File: {file.name}
-        </Text>
-      )}
-      <h2>Upload Button</h2>
+      <Grid>
+      <Grid.Col span={8}>
+        <FileInput placeholder="Choose any .pdf file" onChange={setFile} accept=".pdf"/>
+      </Grid.Col>
+      <Grid.Col span={4}>
+        <NumberInput  placeholder="Version number" onChange={setFileNumber}/>
+      </Grid.Col>
+      </Grid>
+      
+
       <div>
-        <Button onClick={openDialog}>Upload Documents</Button>
+        <Button onClick={()=>{
+          // openDialog();
+          open();}}>Upload Documents</Button>
       </div>
-      {renderSelectedFile()}
-      {isDialogOpen && (
+      
+      
+      {(
+        <main style={{ position: 'relative', zIndex: 1 }}>
         <Portal>
           <Modal
-            title="Select an option"
-            onClose={closeDialog}
-            closeButtonLabel="Close"
+            title="Choose what to upload"
+            opened={opened}
+            onClose={close}
             size="sm"
+            centered
           >
             <div>
               <Button
                 fullWidth
-                onClick={() =>
-                  document.getElementById("agendaFileInput").click()
-                }
+                onClick={() =>{}}
               >
                 Upload Agenda
               </Button>
+              <Space h="sm" />
               <Button
                 fullWidth
-                onClick={() =>
-                  document.getElementById("handbookFileInput").click()
-                }
+                onClick={() =>{}}
               >
                 Upload Handbook
               </Button>
+              <Space h="sm" />
               <Button
                 fullWidth
-                onClick={() =>
-                  document.getElementById("minutesFileInput").click()
-                }
+                onClick={handleFileUpload}
               >
                 Upload Minutes
               </Button>
             </div>
-            <input
-              type="file"
-              id="agendaFileInput"
-              style={{ display: "none" }}
-              onChange={handleFileUpload}
-            />
-            <input
-              type="file"
-              id="handbookFileInput"
-              style={{ display: "none" }}
-              onChange={handleFileUpload}
-            />
-            <input
-              type="file"
-              id="minutesFileInput"
-              style={{ display: "none" }}
-              onChange={handleFileUpload}
-            />
+            
           </Modal>
         </Portal>
-      )}
+        </main>
+      ) } 
     </div>
   );
 }
