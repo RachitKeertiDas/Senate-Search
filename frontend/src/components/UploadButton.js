@@ -6,12 +6,13 @@ function UploadButton() {
   const [file, setFile] = useState(null);
   const [fileNumber, setFileNumber] = useState(null);
 
-  const handleFileUpload = async () => {
+  const handleFileUpload = async (upload_type) => {
     const formData = new FormData();
     formData.append("file", file);
-
+    
+    const request_url = `http://localhost:8000/upload_${upload_type}/` + (upload_type === "handbook")? ``: `${fileNumber}`
     try {
-      const response = await fetch(`http://localhost:8000/upload_agenda/${fileNumber}/`, {
+      const response = await fetch(request_url, {
         method: "POST",
         body: formData,
       });
@@ -75,21 +76,21 @@ function UploadButton() {
             <div>
               <Button
                 fullWidth
-                onClick={() =>{}}
+                onClick={handleFileUpload("agenda")}
               >
                 Upload Agenda
               </Button>
               <Space h="sm" />
               <Button
                 fullWidth
-                onClick={() =>{}}
+                onClick={handleFileUpload("handbook")}
               >
                 Upload Handbook
               </Button>
               <Space h="sm" />
               <Button
                 fullWidth
-                onClick={handleFileUpload}
+                onClick={handleFileUpload("minutes")}
               >
                 Upload Minutes
               </Button>
