@@ -1,6 +1,6 @@
 import json
 import os
-from shutil import rmtree
+
 
 class DocumentDatabase():
     """
@@ -60,4 +60,3 @@ class DocumentDatabase():
         If it does not exist, raise an exception.
         """
         pass
-
