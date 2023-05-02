@@ -33,7 +33,7 @@ def verify_auth_token(Authorization: str = Header()):
 
 @app.get("/")
 def read_root():
-    extract_file('./data/assets/minutes_51.pdf', 51)
+    extract_file("./data/assets/minutes_51.pdf", 51)
     return {"Hello": "World"}
 
 
@@ -53,7 +53,7 @@ async def upload_minutes(file: UploadFile, num: int):
     """
     file_cnt = file.file.read()
     try:
-        with open(f"./data/assets/minutes_{num}.pdf", 'wb') as f:
+        with open(f"./data/assets/minutes_{num}.pdf", "wb") as f:
             f.write(file_cnt)
     except Exception as err:
         print(err)
@@ -73,7 +73,7 @@ async def upload_handbook(file: UploadFile):
     """
     file_cnt = file.file.read()
     try:
-        with open(f"./data/assets/handbook.pdf", 'wb') as f:
+        with open(f"./data/assets/handbook.pdf", "wb") as f:
             f.write(file_cnt)
     except Exception:
         return {"msg": "Saving the File Failed"}
@@ -92,7 +92,7 @@ async def upload_agenda(file: UploadFile, num: int):
     """
     file_cnt = file.file.read()
     try:
-        with open(f"./data/assets/agenda_{num}.pdf", 'wb') as f:
+        with open(f"./data/assets/agenda_{num}.pdf", "wb") as f:
             f.write(file_cnt)
     except Exception:
         return {"msg": "Saving the File Failed"}
@@ -103,29 +103,29 @@ async def upload_agenda(file: UploadFile, num: int):
     return {file.filename}
 
 
-@app.get('/handbook')
+@app.get("/handbook")
 async def view_handbook():
     """
     View the Academic Handbook
     """
     current_dir = os.getcwd()
-    return FileResponse(f'{current_dir}/data/assets/handbook.pdf')
+    return FileResponse(f"{current_dir}/data/assets/handbook.pdf")
 
 
-@app.get('/minutes/pdf/{minutes_number}')
+@app.get("/minutes/pdf/{minutes_number}")
 async def view_minutes_pdf(minutes_number: int):
     """
     Retrieve the PDF of minutes from the database.
     """
     try:
-        headers = {'Content-Disposition': 'inline', 'filename': "out.pdf"}
+        headers = {"Content-Disposition": "inline", "filename": "out.pdf"}
         current_dir = os.getcwd()
-        return FileResponse(f'{current_dir}/data/assets/minutes_{minutes_number}.pdf')
+        return FileResponse(f"{current_dir}/data/assets/minutes_{minutes_number}.pdf")
     except Exception as err:
         return {"error": err}
 
 
-@app.get('/search')
+@app.get("/search")
 async def search_query(query: str):
     # TODO: Change later to walk based
     available_docs = []
@@ -133,7 +133,7 @@ async def search_query(query: str):
         minute_obj = db.retrieve_minutes(i)
         if minute_obj is not None:
             available_docs.append(minute_obj)
-            print('Doc Available')
+            print("Doc Available")
 
     print("retrieved docs, sending to search engine for querying")
 

@@ -2,7 +2,7 @@ import json
 import os
 
 
-class DocumentDatabase():
+class DocumentDatabase:
     """
     Defines an abstract class that any database implementation should confirm to.
     """
@@ -11,7 +11,7 @@ class DocumentDatabase():
         """
         Used to init the database.
         Can be used to make sure database is booted up
-        and load already existing documents etc. 
+        and load already existing documents etc.
         """
         pass
 
@@ -56,7 +56,7 @@ class DocumentDatabase():
 
     def delete_meeting(self, meeting_number):
         """
-        Delete a Particular Meeting. 
+        Delete a Particular Meeting.
         If it does not exist, raise an exception.
         """
         pass

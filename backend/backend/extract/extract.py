@@ -111,16 +111,13 @@ class SenateMinutes:
                         #     f'(Senate Resolution on item ?:A -{self.senate_number})(?:\s?\.[0-9]+)+(?:\s?\({sub_prop_number}\))', x[knt + 1])
                         y = re.split(f"(\n{sub_prop_number}\))", x[knt + 1])
                         if len(y) == 1:
-                            y = re.split(
-                                f"(\n{sub_prop_number}\.)", x[knt + 1])
+                            y = re.split(f"(\n{sub_prop_number}\.)", x[knt + 1])
                         if len(y) == 1:
                             sub_prop_number = int(
-                                re.search("(\d+)(?!.*\d)",
-                                          prop_number).group(0)
+                                re.search("(\d+)(?!.*\d)", prop_number).group(0)
                             )
                             sub_prop_number += 1
-                            y = re.split(
-                                f"(\n{sub_prop_number}\))", x[knt + 1])
+                            y = re.split(f"(\n{sub_prop_number}\))", x[knt + 1])
                     else:
                         sub_prop_number = int(
                             re.search("(\d+)(?!.*\d)", prop_number).group(0)
