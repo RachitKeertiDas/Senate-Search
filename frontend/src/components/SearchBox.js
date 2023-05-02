@@ -35,19 +35,36 @@ function SearchBox() {
 						Search
 					</Button>
 				</form>
-				<ScrollArea height={"50vh"} style={{ maxHeight: "50vh" }} type="always">
+				<ScrollArea
+					height={"50vh"}
+					style={{ maxHeight: "50vh", width: "70vw" }}
+					type="always"
+				>
 					<Accordion
 						height={"50vh"}
-						style={{ maxHeight: "50vh" }}
+						style={{ maxHeight: "50vh", width: "60vw" }}
 						type="always"
+						styles={{
+							item: {
+								// styles added to all items
+								backgroundColor: "#fff",
+								textOverflow: "ellipsis",
+								whiteSpace: "nowrap",
+
+								// styles added to expanded item
+								"&[data-active]": {
+									backgroundColor: "#ccc",
+									textOverflow: "clip",
+									whiteSpace: "normal",
+								},
+							},
+						}}
 					>
 						{searchResults.map((item, index) => (
 							<Accordion.Item key={index} value={item.proposal_id}>
 								<Accordion.Control>
 									{item.proposal_id}:{" "}
-									{item.proposal.length > 100
-										? item.proposal.substr(0, 100) + "..."
-										: item.proposal}
+									{item.proposal.length > 100 ? item.proposal : item.proposal}
 								</Accordion.Control>
 								<Accordion.Panel>{item.resolution}</Accordion.Panel>
 							</Accordion.Item>

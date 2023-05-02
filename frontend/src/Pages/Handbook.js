@@ -7,52 +7,60 @@ import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 import Shell from "../components/AppShell";
 
 function Handbook() {
-  const defaultLayoutPluginInstance = defaultLayoutPlugin();
-  const [pdfFile, setPdfFile] = useState(null);
+	const defaultLayoutPluginInstance = defaultLayoutPlugin();
+	const [pdfFile, setPdfFile] = useState(null);
 
-  useEffect(() => {
-    axios
-      .get("http://localhost:8000/handbook", {
-        responseType: "arraybuffer",
-      })
-      .then((response) => {
-        const pdfBlob = new Blob([response.data], { type: "application/pdf" });
-        const pdfUrl = URL.createObjectURL(pdfBlob);
-        setPdfFile(pdfUrl);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
+	useEffect(() => {
+		axios
+			.get("http://localhost:8000/handbook", {
+				responseType: "arraybuffer",
+			})
+			.then((response) => {
+				const pdfBlob = new Blob([response.data], { type: "application/pdf" });
+				const pdfUrl = URL.createObjectURL(pdfBlob);
+				setPdfFile(pdfUrl);
+			})
+			.catch((error) => {
+				console.error(error);
+			});
+	}, []);
 
-  return (
-    <Shell
-      content={
-          <div>
-          
-          {pdfFile && (
-            <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.5.141/build/pdf.worker.min.js">
-              <Viewer
-                fileUrl={pdfFile}
-                plugins={[defaultLayoutPluginInstance]}
-              />
-            </Worker>
-          )}
-          {!pdfFile && (
-            <Center>
-              <Text
-                style={{
-                  fontSize: "20px",
-                }}
-              >
-                No PDF Found!
-              </Text>
-            </Center>
-          )}
-        </div>
-      }
-    />
-  );
+	return (
+		<Shell
+			content={
+				<Center>
+					<Center
+						style={{
+							height: "90vh",
+							minWidth: "80vw",
+							backgroundColor: "#FFE8CC",
+						}}
+					>
+						{pdfFile && (
+							<Worker workerUrl="https://unpkg.com/pdfjs-dist@3.5.141/build/pdf.worker.min.js">
+								<Viewer
+									fileUrl={pdfFile}
+									plugins={[defaultLayoutPluginInstance]}
+								/>
+							</Worker>
+						)}
+
+						{!pdfFile && (
+							<Center>
+								<Text
+									style={{
+										fontSize: "20px",
+									}}
+								>
+									No PDF Found!
+								</Text>
+							</Center>
+						)}
+					</Center>
+				</Center>
+			}
+		/>
+	);
 }
 
 export default Handbook;
