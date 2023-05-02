@@ -27,6 +27,7 @@ class SearchEngine:
 
     def search(self, query, minutes: list[SenateMinutes]):
         docs, doc_index = [], []
+        print(f'DOCS=================================== {len(minutes)}')
         for m, minute in enumerate(minutes):
             for i in range(len(minute.proposals)):
                 doc = minute.proposals[i]['proposal_id'] + ' ' + \
@@ -39,7 +40,7 @@ class SearchEngine:
         encoded_data = self.model.encode(docs)
         encoded_data = np.asarray(encoded_data.astype('float32'))
         index = faiss.IndexIDMap(faiss.IndexFlatIP(768))
-        index.add_with_ids(encoded_data, np.array(range(0, len(docs))))
+        index.add_with_ids(encoded_data, np.arange(len(docs)))
         faiss.write_index(index, 'senate_resolution.index')
 
         # Search within the documents
