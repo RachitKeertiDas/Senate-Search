@@ -1,7 +1,6 @@
-from typing import Union
 import os
 
-from fastapi import Depends, FastAPI, Header, HTTPException, Response, File, UploadFile
+from fastapi import Depends, FastAPI, Header, HTTPException, UploadFile
 from fastapi.responses import FileResponse
 from dotenv import load_dotenv
 
@@ -13,6 +12,7 @@ from database.text_database import TextDatabase
 app = FastAPI()
 db = TextDatabase()
 search_engine = SearchEngine()
+load_dotenv()
 
 
 def extract_file(filename, num):
@@ -73,7 +73,7 @@ async def upload_handbook(file: UploadFile):
     """
     file_cnt = file.file.read()
     try:
-        with open(f"./data/assets/handbook.pdf", "wb") as f:
+        with open("./data/assets/handbook.pdf", "wb") as f:
             f.write(file_cnt)
     except Exception:
         return {"msg": "Saving the File Failed"}
@@ -118,7 +118,7 @@ async def view_minutes_pdf(minutes_number: int):
     Retrieve the PDF of minutes from the database.
     """
     try:
-        headers = {"Content-Disposition": "inline", "filename": "out.pdf"}
+        # headers = {"Content-Disposition": "inline", "filename": "out.pdf"}
         current_dir = os.getcwd()
         return FileResponse(f"{current_dir}/data/assets/minutes_{minutes_number}.pdf")
     except Exception as err:

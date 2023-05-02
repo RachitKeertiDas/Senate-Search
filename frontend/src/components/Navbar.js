@@ -79,6 +79,7 @@ const routes = [
 	{ path: "/upload", index: 2 },
 	{ path: "/agenda", index: 3 },
 	{ path: "/handbook", index: 4 },
+	{ path: "/view_minutes", index: 5 },
 ];
 const mockdata = [
 	{ iconData: { icon: IconHome2, label: "Home" }, route: "/" },
