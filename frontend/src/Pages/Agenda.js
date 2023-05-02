@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Center, Card, Text, Container } from "@mantine/core";
-import { Viewer, Worker } from '@react-pdf-viewer/core';
-import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
-import '@react-pdf-viewer/default-layout/lib/styles/index.css';
+import { Viewer, Worker } from "@react-pdf-viewer/core";
+import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
+import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 import Shell from "../components/AppShell";
 
 function Agenda() {
@@ -11,17 +11,18 @@ function Agenda() {
   const [pdfFile, setPdfFile] = useState(null);
 
   useEffect(() => {
-    axios.get("https://example.com/path/to/pdf/file.pdf", {
-      responseType: "arraybuffer",
-    })
-    .then(response => {
-      const pdfBlob = new Blob([response.data], { type: "application/pdf" });
-      const pdfUrl = URL.createObjectURL(pdfBlob);
-      setPdfFile(pdfUrl);
-    })
-    .catch(error => {
-      console.error(error);
-    });
+    axios
+      .get("https://example.com/path/to/pdf/file.pdf", {
+        responseType: "arraybuffer",
+      })
+      .then((response) => {
+        const pdfBlob = new Blob([response.data], { type: "application/pdf" });
+        const pdfUrl = URL.createObjectURL(pdfBlob);
+        setPdfFile(pdfUrl);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }, []);
 
   return (
@@ -50,20 +51,24 @@ function Agenda() {
           </Center>
           {pdfFile && (
             <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.5.141/build/pdf.worker.min.js">
-              <Viewer fileUrl={pdfFile} plugins={[defaultLayoutPluginInstance]} />
+              <Viewer
+                fileUrl={pdfFile}
+                plugins={[defaultLayoutPluginInstance]}
+              />
             </Worker>
           )}
-          {!pdfFile && 
+          {!pdfFile && (
             <Center>
               <Text
                 style={{
                   color: "red",
                   fontSize: "50px",
                 }}
-              >No PDF Found!!!
+              >
+                No PDF Found!!!
               </Text>
             </Center>
-          }
+          )}
         </div>
       }
     />

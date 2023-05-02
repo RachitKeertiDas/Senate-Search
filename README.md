@@ -1,6 +1,6 @@
-## Senate Search 
+## Senate Search
 
-A project to enable proper datastorage, querying and tracking over Senate Meeting Minutes Documents of IIT Hyderabad. 
+A project to enable proper datastorage, querying and tracking over Senate Meeting Minutes Documents of IIT Hyderabad.
 
 ### Authors:
 

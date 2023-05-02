@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation,matchRoutes } from "react-router-dom";
+import { Link, useLocation, matchRoutes } from "react-router-dom";
 import {
   Navbar,
   Center,
@@ -10,7 +10,14 @@ import {
   rem,
 } from "@mantine/core";
 
-import { IconHome2, IconSearch,IconLogout,IconUpload,IconBook,IconClipboardCheck } from '@tabler/icons-react';// import HorizontalLogo from "../assets/horzlogolong.png";
+import {
+  IconHome2,
+  IconSearch,
+  IconLogout,
+  IconUpload,
+  IconBook,
+  IconClipboardCheck,
+} from "@tabler/icons-react"; // import HorizontalLogo from "../assets/horzlogolong.png";
 
 const useStyles = createStyles((theme) => ({
   link: {
@@ -61,14 +68,21 @@ function NavbarLink({ icon: Icon, label, active, onClick }) {
 }
 
 const routes = [
-  {path:"/",index:0},{path:"/search/",index:1},{path:"/upload",index:2},{path:"/agenda",index:3},{path:"/handbook",index:4}
-]
+  { path: "/", index: 0 },
+  { path: "/search/", index: 1 },
+  { path: "/upload", index: 2 },
+  { path: "/agenda", index: 3 },
+  { path: "/handbook", index: 4 },
+];
 const mockdata = [
-  {iconData:{ icon: IconHome2, label: "Home" },route:"/"},
-  {iconData:{ icon: IconSearch, label: "Search" },route:"/search"},
-  {iconData:{ icon: IconUpload, label: "Upload" },route:"/upload"},
-  {iconData:{ icon: IconClipboardCheck, label: "Agenda" },route:"/agenda"},
-  {iconData:{ icon: IconBook, label: "Academic Handbook" },route:"/handbook"},
+  { iconData: { icon: IconHome2, label: "Home" }, route: "/" },
+  { iconData: { icon: IconSearch, label: "Search" }, route: "/search" },
+  { iconData: { icon: IconUpload, label: "Upload" }, route: "/upload" },
+  { iconData: { icon: IconClipboardCheck, label: "Agenda" }, route: "/agenda" },
+  {
+    iconData: { icon: IconBook, label: "Academic Handbook" },
+    route: "/handbook",
+  },
 ];
 
 function NavbarMinimal() {
@@ -78,17 +92,19 @@ function NavbarMinimal() {
     // eslint-disable-next-line
     <Link to={link.route}>
       <NavbarLink
-      {...link.iconData}
-      key={link.iconData.label}
-      active={index === active}
-      onClick={() => setActive(index)}
+        {...link.iconData}
+        key={link.iconData.label}
+        active={index === active}
+        onClick={() => setActive(index)}
       />
     </Link>
   ));
-  
+
   const location = useLocation();
-  const final = matchRoutes(routes,location);
-  useEffect(()=>{setActive(final[0].route.index)},[]);
+  const final = matchRoutes(routes, location);
+  useEffect(() => {
+    setActive(final[0].route.index);
+  }, []);
 
   return (
     <Navbar height={rem("90vh")} width={{ base: 80 }} p="md">

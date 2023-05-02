@@ -33,8 +33,7 @@ function Upload() {
                 <Text>
                   Here you can easily view and track previous Senate Meeting
                   Minutes.
-
-                </Text>                
+                </Text>
                 <UploadButton />
               </Container>
             </Card>
