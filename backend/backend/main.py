@@ -120,7 +120,10 @@ async def view_minutes_pdf(minutes_number: int):
     try:
         # headers = {"Content-Disposition": "inline", "filename": "out.pdf"}
         current_dir = os.getcwd()
-        return FileResponse(f"{current_dir}/data/assets/minutes_{minutes_number}.pdf")
+        if os.path.exists(f"{current_dir}/data/assets/minutes_{minutes_number}.pdf"):
+            return FileResponse(f"{current_dir}/data/assets/minutes_{minutes_number}.pdf")
+        else:
+            return []
     except Exception as err:
         return {"error": err}
 
