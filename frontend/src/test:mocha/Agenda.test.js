@@ -2,6 +2,11 @@ import React from "react";
 import { expect } from "chai";
 import { mount } from "enzyme";
 import Agenda from "../Pages/Agenda";
+import { JSDOM } from 'jsdom';
+
+const dom = new JSDOM();
+global.document = dom.window.document;
+
 
 describe("<Agenda />", () => {
   it("should render a welcome message", () => {
