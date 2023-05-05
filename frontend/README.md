@@ -1,3 +1,8 @@
+PLease create an .env file with the following keys:
+REACT_APP_AUTH_CLIENT_ID and use your Google Auth's CLIENT ID for the model to run. 
+
+CRA Documentation follows below:
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
